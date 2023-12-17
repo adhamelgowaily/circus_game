@@ -4,14 +4,25 @@
  */
 package object;
 
+import java.awt.Color;
+
 /**
  *
  * @author amrkh
  */
 public class Plates extends ImageObject {
     
-    public Plates(int x, int y, String path) {
+    private String color;
+    
+    public Plates(int x, int y, String path, String color) {
         super(x, y, path);
+        this.color = color;
+        
+    }
+    
+    public String getColor()
+    {
+        return this.color;
     }
     
 }

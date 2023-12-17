@@ -11,45 +11,50 @@ import java.util.Random;
  *
  * @author amrkh
  */
-public class Factory implements GameObjectFactory{
-    
-   private int height;
-   private int width;
-   
-   public Factory(int height,int width)
-   {
-       this.height = height;
-       this.width = width;
-   }
-   
+public class Factory implements GameObjectFactory {
+
+    private int height;
+    private int width;
+
+    public Factory(int height, int width) {
+        this.height = height;
+        this.width = width;
+    }
+
     /**
      *
      * @param type
      * @return
      */
     @Override
-    public GameObject createGameObject(String type) 
-    {
-       int x = (int) (Math.random() * width);
-       int y = (int) (Math.random() * (height / 2));
-       
-       if(type.equals("plates"))
-       {
-           //return instance of plate class
-       }
-       else
-       {
-           //return instance of bombs
+    public GameObject createGameObject(String type) {
+        String path;
+        int x = (int) (Math.random() * width);
+        int y =                     -1 * (int) (Math.random() * height);
+
+//        int y = (int) (Math.random() * (height / 4));
+                
+
+        if (type.equals("plates")) {
+            //return instance of plate class
+            int number = new Random().nextInt(2) + 1;
+            String[] array = {"red", "blue", "green", "orange"};
+            String color = array[new Random().nextInt(array.length)];
+             path = color + "," + number + ".png";
+            return new Plates(x, y, path,color);
            
-       }
-       
-//       int number =  new Random().nextInt(2) + 1;
-//       String[] array = {"red","blue","green","orange"};
-//       String color = array[new Random().nextInt(array.length)];
-//       String path = color + "," + number + ".png";
-//       
-//            System.out.println(path);
-//          return new ImageObject(x, y, path);
-    }      
-   
+        } else if (type.equals("bombs")) {
+            path = "Bomb" + ".png";
+            return new Bomb(x, y, path);
+            
+
+        } 
+         else  
+        {
+            path = "beli" + ".png";
+            return new CharacterObject(width / 2, height - 230,path);
+        }
+           
+    }
+
 }

@@ -7,6 +7,7 @@ package object;
 import eg.edu.alexu.csd.oop.game.GameObject;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,14 +19,13 @@ import javax.imageio.ImageIO;
  *
  * @author amrkh
  */
-public class ImageObject implements GameObject{
+public abstract class ImageObject implements GameObject{
     
     BufferedImage[] images ;
-    private Color color;
     private int x;
     private int y;	
     private boolean visible;
-    
+        
     public ImageObject(int x, int y, String path)
     {
         
@@ -33,11 +33,9 @@ public class ImageObject implements GameObject{
             this.y = y;
             this.visible = true;
             images = new BufferedImage[1];
-            //String[] s = path.split(",");
-            //color = Color.decode("#" + s[0]);
+            
             try {
-                System.out.println(path);
-            images[0] = ImageIO.read(getClass().getResourceAsStream(path));   
+            images[0] = ImageIO.read(new File(path));   
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -45,10 +43,7 @@ public class ImageObject implements GameObject{
     
      
     
-    public Color getColor()
-    {
-        return this.color;
-    }
+    
     
     @Override
     public int getX() {

@@ -7,6 +7,7 @@ package world;
 import eg.edu.alexu.csd.oop.game.GameObject;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -30,16 +31,11 @@ public class GameObjectIterator implements Iterator<GameObject>{
 
     @Override
     public GameObject next() {
-        if(hasNext())
-        {
+       
             GameObject current = objects.get(index);
             index++;
             return current;
-        }
-        else
-        {
-           //throw exception
-        }
+       
     }
     
 }

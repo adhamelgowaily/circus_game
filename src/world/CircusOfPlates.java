@@ -14,79 +14,108 @@ import object.*;
  *
  * @author amrkh
  */
-public class CircusOfPlates implements World{
-  
+public class CircusOfPlates implements World {
+
     private final int width;
     private final int height;
+    private GameBehaviour strategy;
+
     GameObjectFactory factory;
     GameObjectIterator iterator;
-    
+
     private final List<GameObject> constant = new LinkedList<GameObject>();
     private final List<GameObject> moving = new LinkedList<GameObject>();
     private final List<GameObject> control = new LinkedList<GameObject>();
-    
-    public CircusOfPlates(int width,int height)
-    {
+
+    public CircusOfPlates(int width, int height, GameBehaviour strategy) {
         this.width = width;
         this.height = height;
-        factory = new Factory(height,width);
+        this.strategy = strategy;
+
+        factory = new Factory(height, width);
         //create movable (Plates)
-         for(int i = 0; i < 10; i++)
-          moving.add(factory.createGameObject("plates"));
+        for (int i = 0; i < 10; i++) {
+            moving.add(factory.createGameObject("plates"));
+        }
+
+        for (int i = 0; i < 1; i++) {
+            moving.add(factory.createGameObject("bombs"));
+        }
+
+        control.add(factory.createGameObject("character"));
 
         //create controllable 
     }
-    
-    
-    
 
-    private boolean intersect(GameObject o1, GameObject o2){
-             return true;
-	}
+    private boolean intersect(GameObject o1, GameObject o2) {
+        return //( Math.abs((o1.getY() + o1.getHeight() / 2) - (o2.getY() + o2.getHeight() / 2)) <= o1.getHeight());
+                (o1.getY() == o2.getY() + o2.getHeight()) && ((o2.getX() + o2.getWidth()) > o1.getX() && o2.getX() < (o1.getX() + o1.getWidth()));
+        //Math.abs((o1.getX() + o1.getWidth() / 2) - (o2.getX() + o2.getWidth() / 2)) <= o1.getWidth()) &&
+    }
 
     @Override
     public List<GameObject> getConstantObjects() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return constant;
     }
 
     @Override
     public List<GameObject> getMovableObjects() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return moving;
     }
 
     @Override
     public List<GameObject> getControlableObjects() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return control;
     }
 
     @Override
     public int getWidth() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return width;
     }
 
     @Override
     public int getHeight() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return height;
     }
 
     @Override
     public boolean refresh() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ImageObject beli = (ImageObject) control.get(0);
+
+        iterator = new GameObjectIterator(moving);
+        while (iterator.hasNext()) {
+            GameObject o = iterator.next();
+            o.setY(o.getY() + 1);
+            if (intersect(beli, o) ) {
+                control.add(o);
+                moving.remove(o);
+                System.out.println("intersected");
+            }
+
+            if (o.getY() == getHeight()) {
+                // reuse the alien in another position
+                o.setY(-1 * (int) (Math.random() * getHeight()));
+                o.setX((int) (Math.random() * getWidth()));
+            }
+
+        }
+
+        return true;
     }
 
     @Override
     public String getStatus() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "Score:";
     }
 
     @Override
     public int getSpeed() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return 10;
     }
 
     @Override
     public int getControlSpeed() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-   
+        return 20;
+
     }
 }
