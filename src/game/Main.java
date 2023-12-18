@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.oop.game.sample;
+package game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

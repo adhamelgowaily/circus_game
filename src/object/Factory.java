@@ -30,7 +30,7 @@ public class Factory implements GameObjectFactory {
     public GameObject createGameObject(String type) {
         String path;
         int x = (int) (Math.random() * width);
-        int y =                     -1 * (int) (Math.random() * height);
+        int y =  -1 * (int) (Math.random() * height);
 
 //        int y = (int) (Math.random() * (height / 4));
                 
@@ -40,7 +40,7 @@ public class Factory implements GameObjectFactory {
             int number = new Random().nextInt(2) + 1;
             String[] array = {"red", "blue", "green", "orange"};
             String color = array[new Random().nextInt(array.length)];
-             path = color + "," + number + ".png";
+             path = color + "," + 1 + ".png";
             return new Plates(x, y, path,color);
            
         } else if (type.equals("bombs")) {
