@@ -37,10 +37,10 @@ public class Factory implements GameObjectFactory {
 
         if (type.equals("plates")) {
             //return instance of plate class
-            int number = new Random().nextInt(2) + 1;
-            String[] array = {"red", "blue", "green", "orange"};
+            //int number = new Random().nextInt(2) + 1;
+            String[] array = {"red", "blue", "green", "yellow","gold","black","purple"};
             String color = array[new Random().nextInt(array.length)];
-             path = color + "," + number + ".png";
+             path = color + ".png";
             return new Plates(x, y, path,color);
            
         } else if (type.equals("bombs")) {

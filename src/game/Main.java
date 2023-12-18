@@ -1,8 +1,15 @@
-package eg.edu.alexu.csd.oop.game.sample;
+package game;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+import javax.imageio.ImageIO;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -14,7 +21,8 @@ import world.Easy;
 
 public class Main {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+            
 //		System.out.println("Uncomment any of the lines in the Main to run a new game, Have Fun :)");
 //
 //		/* -------------------------------------------------------------------- */
@@ -55,6 +63,7 @@ public class Main {
 		menu.add(pauseMenuItem);
 		menu.add(resumeMenuItem);
 		menuBar.add(menu);
+		BufferedImage bufferedImage = ImageIO.read(new File("background.jpg"));;
 		final GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()),Color.BLACK);
 		newMenuItem.addActionListener(new ActionListener() {
 		@Override public void actionPerformed(ActionEvent e) {
