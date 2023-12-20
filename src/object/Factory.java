@@ -12,15 +12,22 @@ import java.util.Random;
  * @author amrkh
  */
 public class Factory implements GameObjectFactory {
+    private static Factory instance = new Factory();
 
-    private int height;
-    private int width;
-    private int count = -35;
+    private static int height;
+    private static int width;
+    private static int count;
 
-    public Factory(int height, int width) {
-        this.height = height;
-        this.width = width;
+    private Factory() {
     }
+
+public static Factory getInstance(int height, int width)
+{
+        instance.height = height;
+        instance.width = width;
+        count = -35;
+        return instance;
+}
 
     /**
      *
@@ -36,9 +43,10 @@ public class Factory implements GameObjectFactory {
         if (type.equals("plates")) {
             //return instance of plate class
             //int number = new Random().nextInt(2) + 1;
-            String[] array = {"red", "blue", "green", "yellow"};//"gold","black","purple"
+            String[] array = {"red", "blue", "green", "yellow","black","purple"};
             String color = array[new Random().nextInt(array.length)];
-             path = color + ".png";
+            int num = (new Random().nextInt(2)) + 1;
+             path = color +","+ num + ".png";
             return new Plates(x, y, path,color);
            
         } else if (type.equals("bombs")) {

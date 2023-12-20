@@ -8,6 +8,7 @@ import eg.edu.alexu.csd.oop.game.GameObject;
 import eg.edu.alexu.csd.oop.game.World;
 import object.Factory;
 import object.GameObjectFactory;
+import object.Hand;
 import object.Plates;
 
 import java.util.List;
@@ -31,10 +32,11 @@ public abstract class GameBehaviour {
 
     public void plateIntersection(GameObject o1, GameObject o2, List<GameObject> control) {
         Plates first, second;
-        if (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + 27))) //left
+        if (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + o2.getWidth()))) //left
         {
             leftNum++;
-            o2.setX(o1.getX() - 10);
+            o2.setX(o1.getX());
+            ((Plates) o2).setHand(Hand.Left);
             if (leftStack.isEmpty() || leftStack.size() == 1)
                 leftStack.push((Plates) o2);
             else {
@@ -56,7 +58,8 @@ public abstract class GameBehaviour {
         } else //right
         {
             rightNum++;
-            o2.setX(o1.getX() + o1.getWidth() - 37);
+            o2.setX(o1.getX() + o1.getWidth() - o2.getWidth());
+            ((Plates) o2).setHand(Hand.Right);
             if (righStack.isEmpty() || righStack.size() == 1)
                 righStack.push((Plates) o2);
             else {
@@ -79,6 +82,22 @@ public abstract class GameBehaviour {
     }
 
     public abstract void bombIntersection(List<GameObject> constant);
+
+    public int getHeightOfStack(Stack<Plates> s1)
+    {
+        Stack<Plates> s2 = new Stack<>();
+        int length = 0;
+        while(!s1.empty())
+        {
+            length += s1.peek().getHeight();
+            s2.push(s1.pop());
+        }
+        while(!s2.empty())
+        {
+            s1.push(s2.pop());
+        }
+        return length;
+    }
 
     public int getLeftNum() {
         return leftNum;
@@ -118,5 +137,14 @@ public abstract class GameBehaviour {
 
     public int getBombNumber() {
         return bombNumber;
+    }
+
+
+    public Stack<Plates> getLeftStack() {
+        return this.leftStack;
+    }
+
+    public Stack<Plates> getRighStack() {
+        return this.righStack;
     }
 }

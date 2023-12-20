@@ -7,13 +7,14 @@ package world;
 import eg.edu.alexu.csd.oop.game.GameObject;
 import eg.edu.alexu.csd.oop.game.World;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-
-import javax.print.attribute.standard.Media;
+import javax.imageio.ImageIO;
 
 import object.*;
 
@@ -22,8 +23,9 @@ import object.*;
  * @author amrkh
  */
 public class CircusOfPlates implements World {
+
     private static int MAX_TIME = 60 * 1000;
-	private long startTime = System.currentTimeMillis();
+    private long startTime;
     private int score = 0;
     private final int width;
     private final int height;
@@ -37,16 +39,16 @@ public class CircusOfPlates implements World {
     private final List<GameObject> control = new LinkedList<GameObject>();
 
     public CircusOfPlates(int width, int height, GameBehaviour strategy) {
+        startTime = System.currentTimeMillis();
         this.width = width;
         this.height = height;
         this.strategy = strategy;
-        factory = new Factory(height, width);
+        factory = Factory.getInstance(height, width);
         createObjects();
     }
 
-    public void createObjects()
-    {
-        for (int i = 0; i < 10; i++) {
+    public void createObjects() {
+        for (int i = 0; i < 30; i++) {
             moving.add(factory.createGameObject("plates"));
         }
 
@@ -55,119 +57,20 @@ public class CircusOfPlates implements World {
         }
         control.add(factory.createGameObject("character"));
 
-        for (int i =0; i < 6; i++)
+        for (int i = 0; i < 6; i++)
             constant.add(factory.createGameObject("heart"));
     }
 
     private boolean intersect(GameObject o1, GameObject o2) {
         if (o2 instanceof Plates && o1 instanceof CharacterObject) {
-            if (((o1.getY() - (o2.getHeight() * num_Intersection_LeftHand) == o2.getY() + o2.getHeight()) &&
+            return (((o1.getY() - strategy.getHeightOfStack(strategy.getLeftStack())/*(o2.getHeight() * strategy.getLeftNum())*/ == o2.getY() + o2.getHeight()) &&
                     (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + o2.getWidth())))
-            return (((o1.getY() - (o2.getHeight() * strategy.getLeftNum()) == o2.getY() + o2.getHeight()) &&
-                    (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + 27)))
                     ||
-                    ((o1.getY() - (o2.getHeight() * num_Intersection_RightHand) == o2.getY() + o2.getHeight()) &&
+                    ((o1.getY() - (strategy.getHeightOfStack(strategy.getRighStack())) == o2.getY() + o2.getHeight()) &&
                             ((o2.getX() + o2.getWidth()) >= (o1.getX() + o1.getWidth() - o2.getWidth())
-                                    && o2.getX() <= (o1.getX() + o1.getWidth()))))) {
-
-                if (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + o2.getWidth()))) {
-                    // left hand
-                    moving.add(factory.createGameObject("plates"));
-                    num_Intersection_LeftHand++;
-                    o2.setX(o1.getX());
-                    ((Plates) o2).setHand(Hand.Left);
-                    if (!lefStack.isEmpty()) {
-                        if (lefStack.size() == 1) {
-                            if (((Plates) o2).getColor().equals(lefStack.peek().getColor())) {
-                                lefStack.push(((Plates) o2));
-                            } else {
-                                lefStack.pop();
-                                lefStack.push(((Plates) o2));
-                            }
-                        } else if (lefStack.size() == 2) {
-                            if (((Plates) o2).getColor().equals(lefStack.peek().getColor())) {
-                                startTime += 10000;
-                                score += 5;
-                                stackFlag = true;
-                                o2.setY(-10);
-                                num_Intersection_LeftHand = num_Intersection_LeftHand - 3;
-
-                                while (!lefStack.isEmpty()) {
-                                    Plates p = lefStack.pop();
-
-                                    control.remove(p);
-
-                                    // make new plates instead
-
-                                    p.setMovingBehaviour(new ObjectBeforeIntersection()); // moves vertically
-
-                                }
-
-                            } else {
-                                while (!lefStack.isEmpty()) {
-                                    lefStack.pop();
-
-                                }
-                                lefStack.push(((Plates) o2));
-                            }
-                        }
-                    } else {
-                        lefStack.push(((Plates) o2));
-
-                    }
-
-                } else {
-                    moving.add(factory.createGameObject("plates"));
-                    num_Intersection_RightHand++;
-                    o2.setX(o1.getX() + o1.getWidth() - o2.getWidth());
-                    ((Plates) o2).setHand(Hand.Right);
-                    if (!righStack.isEmpty()) {
-                        if (righStack.size() == 1) {
-                            if (((Plates) o2).getColor().equals(righStack.peek().getColor())) {
-                                righStack.push(((Plates) o2));
-                            } else {
-                                righStack.pop();
-                                righStack.push(((Plates) o2));
-                            }
-                        } else if (righStack.size() == 2) {
-                            if (((Plates) o2).getColor().equals(righStack.peek().getColor())) {
-                                startTime += 10000;
-                                score += 5;
-                                stackFlag = true;
-                                o2.setY(-10);
-                                num_Intersection_RightHand = num_Intersection_RightHand - 3;
-
-                                while (!righStack.isEmpty()) {
-                                    Plates p = righStack.pop();
-
-                                    control.remove(p);
-                                    p.setMovingBehaviour(new ObjectBeforeIntersection()); // moves vertically
-
-                                }
-
-                            } else {
-                                while (!righStack.isEmpty()) {
-                                    righStack.pop();
-                                }
-                                righStack.push(((Plates) o2));
-
-                            }
-                        }
-                    } else {
-                        righStack.push(((Plates) o2));
-
-                    }
-
-                }
-
-                return true;
-
-            } else {
-                return false;
-            }
-
-        } else {
-            // bomb
+                                    && o2.getX() <= (o1.getX() + o1.getWidth())))));
+        } else // bomb
+        {
             return (o1.getY() == o2.getY() + o2.getHeight())
                     && ((o2.getX() + o2.getWidth()) > o1.getX() && o2.getX() < (o1.getX() + o1.getWidth()));
         }
@@ -200,39 +103,52 @@ public class CircusOfPlates implements World {
 
     @Override
     public boolean refresh() {
-        boolean timeout = System.currentTimeMillis() - startTime > MAX_TIME;
         ImageObject beli = (ImageObject) control.get(0);
+        boolean timeout = System.currentTimeMillis() - startTime > MAX_TIME;
         iterator = new GameObjectIterator(moving);
         while (iterator.hasNext()) {
             GameObject o = iterator.next();
             o.setY(o.getY() + 1);
             if (intersect(beli, o)) {
-                // control.add(o);
-                // moving.remove(o);
-                if (o instanceof Plates && stackFlag == false) {
-
-                    control.add(o);
-                    moving.remove(o);
-                    ((Plates) o).setMovingBehaviour(new ObjectAfterIntersection());// so it doesnt move vertically
-
+                if (o instanceof Plates) {
+                    strategy.plateIntersection(beli, o, control);
+                    moving.add(factory.createGameObject("plates")); // generate new shape after intersection
+                    if (!strategy.isStackFlag()) {
+                        control.add(o);
+                        moving.remove(o);
+                        ((Plates) o).setMovingBehaviour(new ObjectAfterIntersection());// so it doesnt move vertically
+                    } else {
+                        strategy.setScore(strategy.getScore() + 1);
+                        startTime += 10000;
+                        strategy.setStackFlag(false);
+                    }
                 } else {
-                    stackFlag = false;
-
+                    moving.remove(o);
+                    strategy.bombIntersection(constant);
+                    moving.add(factory.createGameObject("bombs"));
                 }
-            }
 
+            }
             if (o.getY() == getHeight()) {
-                // reuse the plate in another position
+                // reuse any movable object in another position
                 o.setY(-1 * (int) (Math.random() * getHeight()));
                 o.setX((int) (Math.random() * getWidth()));
             }
         }
-
-        return true;
+        GameObjectIterator iter = new GameObjectIterator(control);
+        boolean topReached = false;
+        while (iter.hasNext()) {
+            if (iter.next().getY() <= 0) {
+                topReached = true;
+            }
+        }
+        return !timeout && !(constant.size() == 0) && !topReached;
     }
 
+    @Override
     public String getStatus() {
-        return "Score:";
+        return "Score:" + strategy.getScore() + "      Number of Lives: " + strategy.getLives() + "      Time="
+                + Math.max(0, (MAX_TIME - (System.currentTimeMillis() - startTime)) / 1000);
     }
 
     @Override

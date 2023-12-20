@@ -10,6 +10,7 @@ import eg.edu.alexu.csd.oop.game.GameEngine;
 import eg.edu.alexu.csd.oop.game.GameEngine.GameController;
 import world.CircusOfPlates;
 import world.Easy;
+import world.GameBehaviour;
 import world.Hard;
 
 public class Main {
@@ -26,10 +27,10 @@ public class Main {
 		menu.add(pauseMenuItem);
 		menu.add(resumeMenuItem);
 		menuBar.add(menu);
-		final GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()),menuBar,Color.BLACK);
+		final GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
 		newMenuItem.addActionListener(new ActionListener() {
 		@Override public void actionPerformed(ActionEvent e) {
-				//gameController.changeWorld(new CircusOfPlates(1700, 1700));
+				gameController.changeWorld(new CircusOfPlates(900, 600, new Easy()));
 			}
 		});
 		pauseMenuItem.addActionListener(new ActionListener() {

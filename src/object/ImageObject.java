@@ -32,7 +32,7 @@ public class ImageObject implements GameObject{
             images = new BufferedImage[1];
             
             try {
-            images[0] = ImageIO.read(new File(path));   
+            images[0] = ImageIO.read(new File(path));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -76,7 +76,7 @@ public class ImageObject implements GameObject{
     public boolean isVisible() {
         return visible;
     }
-
+    
     @Override
     public BufferedImage[] getSpriteImages() {
         return images;
