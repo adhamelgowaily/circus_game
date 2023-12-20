@@ -6,9 +6,14 @@ package world;
 
 import eg.edu.alexu.csd.oop.game.GameObject;
 import eg.edu.alexu.csd.oop.game.World;
+
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+
+
+import javax.print.attribute.standard.Media;
 
 import object.*;
 
@@ -17,7 +22,9 @@ import object.*;
  * @author amrkh
  */
 public class CircusOfPlates implements World {
-
+    private static int MAX_TIME = 60 * 1000;
+	private long startTime = System.currentTimeMillis();
+    private int score = 0;
     private final int width;
     private final int height;
     private GameBehaviour strategy;
@@ -36,20 +43,16 @@ public class CircusOfPlates implements World {
         this.width = width;
         this.height = height;
         this.strategy = strategy;
-
         factory = new Factory(height, width);
-        // create movable (Plates)
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; ++i) {
             moving.add(factory.createGameObject("plates"));
         }
-
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 5; ++i) {
             moving.add(factory.createGameObject("bombs"));
         }
-
+        // create cHaracter
         control.add(factory.createGameObject("character"));
-
-        // create controllable
+        
     }
 
     int num_Intersection_LeftHand;
@@ -61,16 +64,18 @@ public class CircusOfPlates implements World {
 
         if (o2 instanceof Plates && o1 instanceof CharacterObject) {
             if (((o1.getY() - (o2.getHeight() * num_Intersection_LeftHand) == o2.getY() + o2.getHeight()) &&
-                    (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + 27)))
+                    (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + o2.getWidth())))
                     ||
                     ((o1.getY() - (o2.getHeight() * num_Intersection_RightHand) == o2.getY() + o2.getHeight()) &&
-                            ((o2.getX() + o2.getWidth()) >= (o1.getX() + o1.getWidth() - 27)
+                            ((o2.getX() + o2.getWidth()) >= (o1.getX() + o1.getWidth() - o2.getWidth())
                                     && o2.getX() <= (o1.getX() + o1.getWidth()))))) {
 
-                if (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + 27))) {
+                if (((o2.getX() + o2.getWidth()) >= o1.getX() && o2.getX() <= (o1.getX() + o2.getWidth()))) {
                     // left hand
+                    moving.add(factory.createGameObject("plates"));
                     num_Intersection_LeftHand++;
-                    o2.setX(o1.getX() - 10);
+                    o2.setX(o1.getX());
+                    ((Plates) o2).setHand(Hand.Left);
                     if (!lefStack.isEmpty()) {
                         if (lefStack.size() == 1) {
                             if (((Plates) o2).getColor().equals(lefStack.peek().getColor())) {
@@ -81,7 +86,8 @@ public class CircusOfPlates implements World {
                             }
                         } else if (lefStack.size() == 2) {
                             if (((Plates) o2).getColor().equals(lefStack.peek().getColor())) {
-
+                                startTime += 10000;
+                                score += 5;
                                 stackFlag = true;
                                 o2.setY(-10);
                                 num_Intersection_LeftHand = num_Intersection_LeftHand - 3;
@@ -111,9 +117,10 @@ public class CircusOfPlates implements World {
                     }
 
                 } else {
+                    moving.add(factory.createGameObject("plates"));
                     num_Intersection_RightHand++;
-                    o2.setX(o1.getX() + o1.getWidth() - 37);
-
+                    o2.setX(o1.getX() + o1.getWidth() - o2.getWidth());
+                    ((Plates) o2).setHand(Hand.Right);
                     if (!righStack.isEmpty()) {
                         if (righStack.size() == 1) {
                             if (((Plates) o2).getColor().equals(righStack.peek().getColor())) {
@@ -124,7 +131,8 @@ public class CircusOfPlates implements World {
                             }
                         } else if (righStack.size() == 2) {
                             if (((Plates) o2).getColor().equals(righStack.peek().getColor())) {
-
+                                startTime += 10000;
+                                score += 5;
                                 stackFlag = true;
                                 o2.setY(-10);
                                 num_Intersection_RightHand = num_Intersection_RightHand - 3;
@@ -194,15 +202,13 @@ public class CircusOfPlates implements World {
 
     @Override
     public boolean refresh() {
+        boolean timeout = System.currentTimeMillis() - startTime > MAX_TIME;
         ImageObject beli = (ImageObject) control.get(0);
-
         iterator = new GameObjectIterator(moving);
         while (iterator.hasNext()) {
             GameObject o = iterator.next();
             o.setY(o.getY() + 1);
             if (intersect(beli, o)) {
-                // control.add(o);
-                // moving.remove(o);
                 if (o instanceof Plates && stackFlag == false) {
 
                     control.add(o);
@@ -223,13 +229,12 @@ public class CircusOfPlates implements World {
 
         }
 
-        return true;
+        return !timeout;
     }
 
-    @Override
     public String getStatus() {
-        return "Score:";
-    }
+		return "Score=" + score + "   |   Time=" + Math.max(0, (MAX_TIME - (System.currentTimeMillis()-startTime))/1000);	
+	}
 
     @Override
     public int getSpeed() {
