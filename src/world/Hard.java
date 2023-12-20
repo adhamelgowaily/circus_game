@@ -5,6 +5,9 @@
 package world;
 
 import eg.edu.alexu.csd.oop.game.GameObject;
+import object.GameObjectFactory;
+
+import java.util.List;
 
 /**
  *
@@ -13,8 +16,15 @@ import eg.edu.alexu.csd.oop.game.GameObject;
 public class Hard extends GameBehaviour{
 
     @Override
-    public void bombIntersection(GameObject o1, GameObject o2) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void bombIntersection(GameObject bomb, List<GameObject> constant)
+    {
+        if (getScore() >= 4)
+            setScore(getScore() - 4);
+        else {
+            setScore(0);
+        }
+        constant.remove(getLives() - 1);
+        constant.remove(getLives() - 2);
+        setLives(getLives() - 2);
     }
-    
 }
