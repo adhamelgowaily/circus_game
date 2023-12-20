@@ -17,8 +17,10 @@ public class Easy extends GameBehaviour{
 
     //change speed
     //change number of bombs
+
+
     @Override
-    public void bombIntersection(GameObject bomb, List<GameObject> constant) {
+    public void bombIntersection( List<GameObject> constant) {
         if (getScore() >= 2)
           setScore(getScore() - 2);
         else {

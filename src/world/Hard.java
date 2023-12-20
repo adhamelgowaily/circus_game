@@ -16,7 +16,7 @@ import java.util.List;
 public class Hard extends GameBehaviour{
 
     @Override
-    public void bombIntersection(GameObject bomb, List<GameObject> constant)
+    public void bombIntersection(List<GameObject> constant)
     {
         if (getScore() >= 4)
             setScore(getScore() - 4);

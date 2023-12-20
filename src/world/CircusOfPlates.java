@@ -43,12 +43,12 @@ public class CircusOfPlates implements World {
             moving.add(factory.createGameObject("plates"));
         }
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < strategy.getBombNumber(); i++) {
             moving.add(factory.createGameObject("bombs"));
         }
         control.add(factory.createGameObject("character"));
 
-        for (int i =0; i < 5; i++)
+        for (int i =0; i < 6; i++)
             constant.add(factory.createGameObject("heart"));
     }
 
@@ -118,7 +118,7 @@ public class CircusOfPlates implements World {
                 else
                 {
                     moving.remove(o);
-                    strategy.bombIntersection(o,constant);
+                    strategy.bombIntersection(constant);
                     moving.add(factory.createGameObject("bombs"));
                 }
 
