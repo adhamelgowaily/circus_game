@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  *
  * @author amrkh
  */
-public abstract class ImageObject implements GameObject{
+public class ImageObject implements GameObject{
     
     BufferedImage[] images ;
     private int x;

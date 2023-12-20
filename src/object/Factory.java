@@ -15,6 +15,7 @@ public class Factory implements GameObjectFactory {
 
     private int height;
     private int width;
+    private int count = -35;
 
     public Factory(int height, int width) {
         this.height = height;
@@ -30,15 +31,12 @@ public class Factory implements GameObjectFactory {
     public GameObject createGameObject(String type) {
         String path;
         int x = (int) (Math.random() * width);
-        int y =                     -1 * (int) (Math.random() * height);
-
-//        int y = (int) (Math.random() * (height / 4));
-                
+        int y =  -1 * (int) (Math.random() * height);
 
         if (type.equals("plates")) {
             //return instance of plate class
             //int number = new Random().nextInt(2) + 1;
-            String[] array = {"red", "blue", "green", "yellow","gold","black","purple"};
+            String[] array = {"red", "blue", "green", "yellow"};//"gold","black","purple"
             String color = array[new Random().nextInt(array.length)];
              path = color + ".png";
             return new Plates(x, y, path,color);
@@ -46,15 +44,16 @@ public class Factory implements GameObjectFactory {
         } else if (type.equals("bombs")) {
             path = "Bomb" + ".png";
             return new Bomb(x, y, path);
-            
-
         } 
-         else  
+         else if (type.equals("character"))
         {
             path = "beli" + ".png";
             return new CharacterObject(width / 2, height - 230,path);
         }
-           
+         else
+        {
+            count = count + 35;
+            return new ImageObject(0 + count,10,"heart.png");
+        }
     }
-
 }
