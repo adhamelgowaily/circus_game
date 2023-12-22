@@ -29,6 +29,7 @@ public class StartFrame extends JFrame{
                 setVisible(false);
                 try {
                     main.startGame();
+//                    main.setParentNode(this);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
