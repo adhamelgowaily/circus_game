@@ -15,6 +15,12 @@ import java.util.List;
  */
 public class Hard extends GameBehaviour{
 
+
+    public Hard ()
+    {
+        setBombNumber(100);
+    }
+
     @Override
     public void bombIntersection(List<GameObject> constant)
     {

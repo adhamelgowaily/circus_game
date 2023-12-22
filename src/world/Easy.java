@@ -19,6 +19,7 @@ public class Easy extends GameBehaviour {
     // change number of bombs
 
     public Easy() {
+
         setBombNumber(2);
     }
 

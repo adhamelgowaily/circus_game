@@ -10,12 +10,14 @@ import eg.edu.alexu.csd.oop.game.GameEngine;
 import eg.edu.alexu.csd.oop.game.GameEngine.GameController;
 import world.*;
 
-public class Main implements Node{
+public class Main {
 	private final String level;
 	private JFrame startFrame;
 	private Node parent;
 
-	//public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
+		StartFrame startFrame1 = new StartFrame();
+	}
 	public Main(String level) {
 
 		this.level = level;
@@ -33,48 +35,43 @@ public class Main implements Node{
 		menuBar.add(menu);
 		GameController gameController = null;
 		//GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
-		switch(level) {
-			case "Easy":
-				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
-				break;
-			case "Medium":
-				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Medium()), menuBar, Color.BLACK);
-				break;
-			case "Hard":
-				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Hard()), menuBar, Color.BLACK);
-				break;
+//		switch(level) {
+//			case "Easy":
+//				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
+//				break;
+//			case "Medium":
+//				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Medium()), menuBar, Color.BLACK);
+//				break;
+//			case "Hard":
+//				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Hard()), menuBar, Color.BLACK);
+//				break;
+//
+//		}
 
-		}
+		//GameController finalGameController2 = gameController;
 
-		//final GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
-		newMenuItem.addActionListener(new ActionListener() {
-		@Override public void actionPerformed(ActionEvent e) {
-				//gameController.changeWorld(new CircusOfPlates(900, 600, new Easy()));
-				startFrame.setVisible(true);
-			}
-		});
-		GameController finalGameController = gameController;
-		pauseMenuItem.addActionListener(new ActionListener() {
-		@Override public void actionPerformed(ActionEvent e) {
-				finalGameController.pause();
-			}
-		});
-		GameController finalGameController1 = gameController;
-		resumeMenuItem.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) {
-				finalGameController1.resume();
-			}
-		});
+//		newMenuItem.addActionListener(new ActionListener() {
+//		@Override public void actionPerformed(ActionEvent e) {
+//				finalGameController2.changeWorld(new CircusOfPlates(900, 600, new Easy()));
+//
+//
+//			}
+//		});
+//		GameController finalGameController = gameController;
+//		pauseMenuItem.addActionListener(new ActionListener() {
+//		@Override public void actionPerformed(ActionEvent e) {
+//				finalGameController.pause();
+//				//gameController.pause();
+//			}
+//		});
+//		GameController finalGameController1 = gameController;
+//		resumeMenuItem.addActionListener(new ActionListener() {
+//			@Override public void actionPerformed(ActionEvent e) {
+//				finalGameController1.resume();
+//			}
+//		});
 	}
 
 
-	@Override
-	public Node getParentNode() {
-		return parent;
-	}
 
-	@Override
-	public void setParentNode(Node n) {
-		parent = n;
-	}
 }

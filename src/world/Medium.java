@@ -6,6 +6,11 @@ import eg.edu.alexu.csd.oop.game.GameObject;
 
 public class Medium extends GameBehaviour{
 
+    public Medium ()
+    {
+        setBombNumber(3);
+    }
+
     @Override
     public void bombIntersection(List<GameObject> constant) {
         if (getScore() >= 2)
