@@ -8,15 +8,16 @@ import javax.swing.*;
 
 import eg.edu.alexu.csd.oop.game.GameEngine;
 import eg.edu.alexu.csd.oop.game.GameEngine.GameController;
-import world.CircusOfPlates;
-import world.Easy;
-import world.GameBehaviour;
-import world.Hard;
+import world.*;
 
 public class Main {
-	
-	public static void main(String[] args) throws IOException {
+	private final String level;
 
+	//public static void main(String[] args) throws IOException {
+	public Main(String level) {
+		this.level = level;
+	}
+	public void startGame() throws IOException {
 		JMenuBar  menuBar = new JMenuBar();;
 		JMenu menu = new JMenu("File");
 		JMenuItem newMenuItem = new JMenuItem("New");
@@ -27,7 +28,22 @@ public class Main {
 		menu.add(pauseMenuItem);
 		menu.add(resumeMenuItem);
 		menuBar.add(menu);
-		final GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
+		//GameController gameController = null;
+		GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
+//		switch(level) {
+//			case "Easy":
+//				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
+//				break;
+//			case "Medium":
+//				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Medium()), menuBar, Color.BLACK);
+//				break;
+//			case "Hard":
+//				gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Hard()), menuBar, Color.BLACK);
+//				break;
+//
+//		}
+
+		//final GameController gameController = GameEngine.start("Circus Of plates", new CircusOfPlates(900, 600,new Easy()), menuBar, Color.BLACK);
 		newMenuItem.addActionListener(new ActionListener() {
 		@Override public void actionPerformed(ActionEvent e) {
 				gameController.changeWorld(new CircusOfPlates(900, 600, new Easy()));
@@ -44,5 +60,6 @@ public class Main {
 			}
 		});
 	}
+
 	
 }
