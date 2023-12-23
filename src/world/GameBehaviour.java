@@ -1,23 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package world;
 
 import eg.edu.alexu.csd.oop.game.GameObject;
-import eg.edu.alexu.csd.oop.game.World;
-import object.Factory;
-import object.GameObjectFactory;
 import object.Hand;
 import object.Plates;
 
 import java.util.List;
 import java.util.Stack;
 
-/**
- *
- * @author amrkh
- */
 public abstract class GameBehaviour {
     private Stack<Plates> leftStack = new Stack<Plates>();
     private Stack<Plates> righStack = new Stack<Plates>();
@@ -26,7 +15,7 @@ public abstract class GameBehaviour {
     private int score;
     private int lives = 6;
     private int bombNumber;
-
+    private int platesNumber;
     private int leftNum;
     private int rightNum;
 
@@ -81,6 +70,8 @@ public abstract class GameBehaviour {
         }
     }
 
+
+    
     public abstract void bombIntersection(List<GameObject> constant);
 
     public int getHeightOfStack(Stack<Plates> s1)
@@ -139,6 +130,13 @@ public abstract class GameBehaviour {
         return bombNumber;
     }
 
+    public int getPlatesNumber() {
+        return this.platesNumber;
+    }
+
+    public void setPlatesNumber(int platesNumber) {
+        this.platesNumber = platesNumber;
+    }
 
     public Stack<Plates> getLeftStack() {
         return this.leftStack;

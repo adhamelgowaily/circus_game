@@ -1,25 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package world;
 
 import eg.edu.alexu.csd.oop.game.GameObject;
-import object.GameObjectFactory;
-
 import java.util.List;
 
-/**
- *
- * @author amrkh
- */
 public class Hard extends GameBehaviour{
+
+    public Hard() {
+        setBombNumber(6);
+                setPlatesNumber(30);
+
+    }
 
     @Override
     public void bombIntersection(List<GameObject> constant)
     {
-        if (getScore() >= 4)
-            setScore(getScore() - 4);
+        if (getScore() >= 3)
+            setScore(getScore() - 3);
         else {
             setScore(0);
         }

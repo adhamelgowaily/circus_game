@@ -6,10 +6,25 @@ import eg.edu.alexu.csd.oop.game.GameObject;
 
 public class Medium extends GameBehaviour{
 
+    public Medium() {
+        setBombNumber(4);
+        setPlatesNumber(20);
+    }
+
     @Override
     public void bombIntersection(List<GameObject> constant) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bombIntersection'");
-    }
+        if (getScore() >= 2){
+            setScore(getScore() - 2);
+        }
+        else {
+            setScore(0);
+        }
+        if (getLives() == 0) {
+            //do nothing
+        } else {
+        constant.remove(getLives() - 1);
+        setLives(getLives() - 1);
+        }
     
+}
 }

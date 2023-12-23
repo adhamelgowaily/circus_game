@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package object;
 
 import eg.edu.alexu.csd.oop.game.GameObject;
@@ -10,12 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-
-
-/**
- *
- * @author amrkh
- */
 public class ImageObject implements GameObject{
     
     BufferedImage[] images ;
@@ -37,10 +27,6 @@ public class ImageObject implements GameObject{
             ex.printStackTrace();
         }
     }
-    
-     
-    
-    
     
     @Override
     public int getX() {

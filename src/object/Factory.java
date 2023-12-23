@@ -1,21 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package object;
 
 import eg.edu.alexu.csd.oop.game.GameObject;
 import java.util.Random;
 
-/**
- *
- * @author amrkh
- */
 public class Factory implements GameObjectFactory {
     private static Factory instance = new Factory();
 
+    //frame height and width
     private static int height;
     private static int width;
+    //location for the heart 
     private static int count;
 
     private Factory() {
@@ -41,10 +35,10 @@ public static Factory getInstance(int height, int width)
         int y =  -1 * (int) (Math.random() * height);
 
         if (type.equals("plates")) {
-            //return instance of plate class
-            //int number = new Random().nextInt(2) + 1;
+            //ball colors
             String[] array = {"red", "blue", "green", "yellow","black","purple"};
             String color = array[new Random().nextInt(array.length)];
+            //for every colour there is a flat ball and full ball: 1 & 2
             int num = (new Random().nextInt(2)) + 1;
              path = color +","+ num + ".png";
             return new Plates(x, y, path,color);

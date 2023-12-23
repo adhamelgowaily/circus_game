@@ -1,15 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package object;
 
-import object.Hand;
-
-/**
- *
- * @author amrkh
- */
 public class Plates extends ImageObject {
 
     private String color;
@@ -19,6 +9,7 @@ public class Plates extends ImageObject {
     public Plates(int x, int y, String path, String color) {
         super(x, y, path);
         this.color = color;
+        //starting moving behaviour before landing on the character's hands
         move = new ObjectBeforeIntersection();
 
     }
@@ -41,6 +32,7 @@ public class Plates extends ImageObject {
         if (move instanceof ObjectBeforeIntersection) {
             super.setY(y);
         } else {
+            //after joining the character movement
             // do nothing
         }
     }
