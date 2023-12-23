@@ -18,10 +18,16 @@ Level level;
         //Creation of menu bar
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
-        JMenuItem newMenuItem = new JMenuItem("New");
+        //JMenuItem newMenuItem = new JMenuItem("New");
+        JMenuItem easyMenuItem = new JMenuItem("New Easy Game");
+        JMenuItem mediumMenuItem = new JMenuItem("New Medium Game");
+        JMenuItem hardMenuItem = new JMenuItem("New Hard Game");
         JMenuItem pauseMenuItem = new JMenuItem("Pause");
         JMenuItem resumeMenuItem = new JMenuItem("Resume");
-        menu.add(newMenuItem);
+        //menu.add(newMenuItem);
+        menu.add(easyMenuItem);
+        menu.add(mediumMenuItem);
+        menu.add(hardMenuItem);
         menu.addSeparator();
         menu.add(pauseMenuItem);
         menu.add(resumeMenuItem);
@@ -76,7 +82,7 @@ Level level;
         JFrame sf = this;
         //new game button pressed
         //creates a game with same difficulty chosen
-        newMenuItem.addActionListener(new ActionListener() {
+        /*newMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch(level) {
@@ -90,6 +96,25 @@ Level level;
                         gameController.changeWorld(new CircusOfPlates(900, 600, new Hard()));
                         break;
                 } 
+            }
+        }); */
+
+        easyMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameController.changeWorld(new CircusOfPlates(900, 600, new Easy()));
+            }
+        });
+        mediumMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameController.changeWorld(new CircusOfPlates(900, 600, new Medium()));
+            }
+        });
+        hardMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameController.changeWorld(new CircusOfPlates(900, 600, new Hard()));;
             }
         });
         pauseMenuItem.addActionListener(new ActionListener() {
