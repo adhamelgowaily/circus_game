@@ -22,7 +22,7 @@ public class Medium extends GameBehaviour{
         if (getLives() == 0) {
             //do nothing
         } else {
-        constant.remove(getLives() - 1);
+        constant.remove(getLives());
         setLives(getLives() - 1);
         }
     

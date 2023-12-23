@@ -3,8 +3,14 @@ package world;
 import eg.edu.alexu.csd.oop.game.GameObject;
 import eg.edu.alexu.csd.oop.game.World;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import object.*;
 
 
@@ -31,6 +37,7 @@ public class CircusOfPlates implements World {
         this.height = height;
         this.strategy = strategy;
         factory = Factory.getInstance(height, width);
+        constant.add(factory.createGameObject("background"));
         createObjects();
     }
 
@@ -134,7 +141,7 @@ public class CircusOfPlates implements World {
             }
         }
         //game ends in three ways: time ends, lives finish, stack reached top
-        return !timeout && !(constant.size() == 0) && !topReached;
+        return !timeout && !(constant.size() == 1) && !topReached;
     }
 
     //status bar

@@ -52,6 +52,11 @@ public static Factory getInstance(int height, int width)
             path = "beli" + ".png";
             return new CharacterObject(width / 2, height - 230,path);
         }
+        else if(type.equals("background"))
+        {
+            path = "background" + ".png";
+            return new Background(0, 0,path);
+        }
          else
         {
             count = count + 35;

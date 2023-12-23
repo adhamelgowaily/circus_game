@@ -73,7 +73,7 @@ Level level;
         panel.add(hardButton);
         add(panel);
         setVisible(true);
-
+        JFrame sf = this;
         //new game button pressed
         //creates a game with same difficulty chosen
         newMenuItem.addActionListener(new ActionListener() {
@@ -89,7 +89,7 @@ Level level;
                     case Level.Hard:
                         gameController.changeWorld(new CircusOfPlates(900, 600, new Hard()));
                         break;
-                }
+                } 
             }
         });
         pauseMenuItem.addActionListener(new ActionListener() {
