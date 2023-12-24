@@ -79,7 +79,6 @@ Level level;
         panel.add(hardButton);
         add(panel);
         setVisible(true);
-        JFrame sf = this;
         //new game button pressed
         //creates a game with same difficulty chosen
         /*newMenuItem.addActionListener(new ActionListener() {
