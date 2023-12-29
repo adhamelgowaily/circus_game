@@ -3,8 +3,12 @@ package world;
 import eg.edu.alexu.csd.oop.game.GameObject;
 import eg.edu.alexu.csd.oop.game.World;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import object.*;
 
@@ -25,6 +29,10 @@ public class CircusOfPlates implements World {
     private final List<GameObject> moving = new LinkedList<GameObject>();
     private final List<GameObject> control = new LinkedList<GameObject>();
 
+
+    private SimpleAudioPlayer audio;
+        
+
     public CircusOfPlates(int width, int height, GameBehaviour strategy) {
         startTime = System.currentTimeMillis();
         this.width = width;
@@ -33,6 +41,12 @@ public class CircusOfPlates implements World {
         factory = Factory.getInstance(height, width);
         constant.add(factory.createGameObject("background"));
         createObjects();
+        try {
+            audio = new SimpleAudioPlayer();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void createObjects() {
@@ -102,12 +116,25 @@ public class CircusOfPlates implements World {
                     moving.add(factory.createGameObject("plates")); // generate new shape after intersection
                     if (!strategy.isStackFlag()) {
                         //plate landed on hands or stack
+                        try {
+                            audio.stop();
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                         control.add(o);
                         moving.remove(o);
                         ((Plates) o).setMovingBehaviour(new ObjectAfterIntersection());// so it doesnt move vertically
                     } else 
                     {
                         //three objects of same colour match
+                        try {
+                            audio.restart();
+                        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        audio.play();
                         strategy.setScore(strategy.getScore() + 1);
                         startTime += 10000;
                         strategy.setStackFlag(false);
